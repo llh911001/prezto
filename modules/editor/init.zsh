@@ -21,7 +21,8 @@ setopt BEEP                     # Beep on error in line editor.
 #
 
 # Treat these characters as part of a word.
-WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
+zstyle -s ':prezto:module:editor' wordchars 'WORDCHARS' \
+  || WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
 # Use human-friendly identifiers.
 zmodload zsh/terminfo
@@ -318,6 +319,7 @@ bindkey -M vicmd "$key_info[Control]X$key_info[Control]E" edit-command-line
 
 # Undo/Redo
 bindkey -M vicmd "u" undo
+bindkey -M viins "$key_info[Control]_" undo
 bindkey -M vicmd "$key_info[Control]R" redo
 
 if (( $+widgets[history-incremental-pattern-search-backward] )); then
