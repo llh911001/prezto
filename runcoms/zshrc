@@ -1,17 +1,32 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # use UP and DOWN to cycle through history substring matches
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# Customize to your needs...
+# Customize
+alias tal="tree -a -L 1"
+alias laa='ls -Alh;a=$(l|wc -l);b=$(tal|tail -1);echo "${a} entries: ${b}"'
+alias proxy_start="export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890"
+alias proxy_stop="unset http_proxy https_proxy"
+
+function mkfile() {
+  for f in "$@"; do
+    [ -d $f:h ] || mkdir -p $f:h && touch $f
+  done
+}
+
+alias touch=mkfile
+
+# fix `git reset HEAD^` not working
+setopt NO_NOMATCH
+
+# autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
